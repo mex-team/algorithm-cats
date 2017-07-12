@@ -57,7 +57,7 @@ const print = (records, level, index) => {
     if (index < records.length - 1) {
       print(records, level, index + 1);
     } else {
-      console.log(`\nleast: ${records.length}`);
+      console.log(`\nleast: ${records.length - 1}`);
     }
   }, 1200);
 };
