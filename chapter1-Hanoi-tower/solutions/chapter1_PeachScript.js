@@ -16,9 +16,9 @@ const rl = readline.createInterface({
  */
 function hanoi(levels, from = 'left', cache = 'middle', dest = 'right', steps = []) {
   if (levels > 0) {
-    steps.push(...hanoi(levels - 1, from, dest, cache));
+    hanoi(levels - 1, from, dest, cache, steps);
     steps.push(`${from} => ${dest}`);
-    steps.push(...hanoi(levels - 1, cache, from, dest));
+    hanoi(levels - 1, cache, from, dest, steps);
   }
   return steps;
 }
