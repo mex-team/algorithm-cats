@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+const readline = require('readline');
 
 /**
  * 柱子换位法解决汉诺塔问题
@@ -35,23 +36,31 @@ const hanoi = (level) => {
     initStatus.left.push(i + 1);
   }
   const records = move(level, 'left', 'middle', 'right', [], initStatus);
-  console.log(`least: ${records.length}`);
-  console.log('steps:');
+  readline.cursorTo(process.stdout, 0, 0);
   initStatus.left.push.apply(initStatus.left, initStatus.right.splice(0, level));
   records.unshift(['init', '', JSON.stringify(initStatus)]);
-  records.forEach(function (record) {
-    record[2] = JSON.parse(record[2]);
-    record[2] = Object.keys(record[2]).map(key => {
-      const patch = level - record[2][key].length;
-      if (patch > 0) {
-        record[2][key] = ' '.repeat(patch - 1).split(' ').concat(record[2][key]);
-      }
-      return record[2][key];
-    });
-    createColumn(level, record);
-  });
-  process.exit(0);
+  print(records, level, 0);
 }
+
+const print = (records, level, index) => {
+  const record = records[index];
+  record[2] = JSON.parse(record[2]);
+  record[2] = Object.keys(record[2]).map(key => {
+    const patch = level - record[2][key].length;
+    if (patch > 0) {
+      record[2][key] = ' '.repeat(patch - 1).split(' ').concat(record[2][key]);
+    }
+    return record[2][key];
+  });
+  setTimeout(() => {
+    createColumn(level, record);
+    if (index < records.length - 1) {
+      print(records, level, index + 1);
+    } else {
+      console.log(`\nleast: ${records.length}`);
+    }
+  }, 1200);
+};
 
 /**
  * 创建行状态
@@ -84,8 +93,10 @@ const createColumn = (level, record) => {
   }
   columns.push([top, top, top].join(' ').replace(/-/g, '|'));
   columns.reverse();
-  console.log(columns.join('\n'));
-  console.log(record[0], '=>', record[1]);
+  readline.cursorTo(process.stdout, 0, 0);
+  readline.clearScreenDown(process.stdout);
+  process.stdout.write(columns.join('\n'));
+  process.stdout.write(`\n${record[0]} => ${record[1]}`);
 };
 
 const level = process.argv[2];
