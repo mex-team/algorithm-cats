@@ -59,7 +59,7 @@ const print = (records, level, index) => {
     } else {
       console.log(`\nleast: ${records.length - 1}`);
     }
-  }, 1200);
+  }, 500);
 };
 
 /**
@@ -68,7 +68,7 @@ const print = (records, level, index) => {
  */
 const createBlock = (level) => {
   const blockLen = 2 * level - 1;
-  const block = '-'.repeat(blockLen);
+  const block = '━'.repeat(blockLen);
   const blank = ' '.repeat((19 - blockLen) / 2);
   const string = [blank, block, blank];
   return string.join('');
@@ -80,10 +80,10 @@ const createBlock = (level) => {
  * @param {Array}  record
  */
 const createColumn = (level, record) => {
-  const blank = createBlock(1).replace('-', '|');
-  const footer = createBlock(3);
+  const blank = createBlock(1).replace('━', '┃');
+  const footer = createBlock(10);
   const top = createBlock(1);
-  const columns = [[footer, footer, footer].join(' ')];
+  const columns = [[footer, footer, footer].join('━')];
   for (let i = level - 1; i >= 0 ; i--) {
     const status = Object.keys(record[2]).map(key => {
       const columnStatus = record[2][key][i];
@@ -91,7 +91,7 @@ const createColumn = (level, record) => {
     }).join(' ');
     columns.push([status]);
   }
-  columns.push([top, top, top].join(' ').replace(/-/g, '|'));
+  columns.push([top, top, top].join(' ').replace(/━/g, '┃'));
   columns.reverse();
   readline.cursorTo(process.stdout, 0, 0);
   readline.clearScreenDown(process.stdout);
