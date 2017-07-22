@@ -20,6 +20,8 @@ function play(level, sourcePillar, transportPillar, targetPillar) {
   hanoi(level, sourcePillar, transportPillar, targetPillar, counter);
 }
 
+// play(3, "left", "middle", "right");
+
 module.exports = play;
 
 // test
