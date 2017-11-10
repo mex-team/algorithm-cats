@@ -75,7 +75,7 @@ function nextRead(permutation) {
   });
 }
 
-rl.question('Please input a group of numbers separated by space:', (numbers) => {
+rl.question('Please input a group of numbers separated by space:\n', (numbers) => {
   const permutation = new Permutation(numbers.split(' '));
 
   rl.write('(Got them! Press the RETURN button to get the next permutation)');
